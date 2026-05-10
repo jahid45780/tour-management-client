@@ -1,0 +1,14 @@
+
+import './App.css'
+
+function App() {
+ 
+
+  return (
+    <>
+   <h1>Welcome to the Tour Management App</h1>
+    </>
+  )
+}
+
+export default App
