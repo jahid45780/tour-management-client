@@ -1,12 +1,15 @@
-
+import {Outlet} from 'react-router-dom'
 import './App.css'
+import CommonLayout from './components/Layout/ComonLayout'
 
 function App() {
  
 
   return (
     <>
-   <h1>Welcome to the Tour Management App</h1>
+          <CommonLayout>
+             <Outlet/>
+          </CommonLayout>
     </>
   )
 }
