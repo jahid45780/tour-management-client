@@ -1,3 +1,4 @@
+import RegisterFrom from "@/components/modules/Authorization/RegisterFrom";
 
 const Register = () => {
   return (
@@ -41,7 +42,8 @@ const Register = () => {
 
             {/* register from add hobay  */}
         
-
+            <RegisterFrom/>
+                
 
             <p className="text-center lg:text-left text-slate-400 mt-6">
               Already have an account?{" "}
