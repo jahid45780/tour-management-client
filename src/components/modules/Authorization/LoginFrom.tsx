@@ -26,7 +26,7 @@ import { toast } from "sonner";
       console.error(error);
        if(error.status === 401){
          toast.error("your account is not verified yet. Please verify your account first")
-         navigate("/verify")
+         navigate("/verify", {state:{email:data.email}})
        }
     }
    }
