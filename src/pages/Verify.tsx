@@ -1,5 +1,4 @@
 import { RefreshCwIcon } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -8,26 +7,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
 import {
   Field,
   FieldLabel,
 } from "@/components/ui/field"
-
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp"
-
 import z from "zod"
 import { useLocation } from "react-router"
 import { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useSentOtpMutation } from "@/redux/features/auth/auth.api"
 import { toast } from "sonner"
+import { useSentOtpMutation} from "@/redux/features/auth/auth.api"
 
 
 const FormSchema = z.object({
@@ -45,25 +41,26 @@ const Verify = () => {
   })
 
   const location = useLocation()
-  const [email] = useState(location.state)
+  const { email } = location.state || {};
   const [confirm, setConfirm ] = useState(false)
-  const [sentOtp] = useSentOtpMutation()
+  const [sendOtp] = useSentOtpMutation()
 
-  const handleConfirm = async () =>{
+
+   const handleSendOtp = async () => {
+    const toastId = toast.loading("Sending OTP");
 
     try {
-     const res = await sentOtp({email:email}).unwrap()
+      const res = await sendOtp({ email: email }).unwrap();
 
-     if(res.success){
-       toast.success("otp sent successfully")
-     }
-   setConfirm(true)
-   
-    } catch(err){
-      console.log(err)
+      if (res.success) {
+        toast.success("OTP Sent", { id: toastId });
+        setConfirm(true);
+        
+      }
+    } catch (err) {
+      console.log(err);
     }
-  
-  }
+  };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log(data)
@@ -148,7 +145,7 @@ const Verify = () => {
             <div className="flex items-center justify-between">
               <FieldLabel htmlFor="otp-verification">
                 We Will send you an OTP at <br/>
-                <span className="font-bold">{email}</span>
+               {email}
               </FieldLabel>
 
 
@@ -159,7 +156,7 @@ const Verify = () => {
 
         <CardFooter>
           <Field>
-            <Button onClick={handleConfirm} type="submit" className="w-full">
+            <Button onClick={handleSendOtp} type="submit" className="w-full">
               Confirm
             </Button>
           </Field>
@@ -174,3 +171,4 @@ const Verify = () => {
 }
 
 export default Verify
+

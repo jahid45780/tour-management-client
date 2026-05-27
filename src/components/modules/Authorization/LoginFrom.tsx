@@ -19,7 +19,7 @@ import { toast } from "sonner";
       
       const res = await login(data).unwrap()
       toast.success("login successful")
-      console.log(res.data);
+      console.log(res)
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {

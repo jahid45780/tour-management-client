@@ -1,4 +1,5 @@
 import RegisterFrom from "@/components/modules/Authorization/RegisterFrom";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   return (
@@ -44,13 +45,15 @@ const Register = () => {
         
             <RegisterFrom/>
                 
-
-            <p className="text-center lg:text-left text-slate-400 mt-6">
+             <Link to="/login">
+                <p className="text-center lg:text-left text-slate-400 mt-6">
               Already have an account?{" "}
               <span className="text-cyan-400 cursor-pointer">
                 Login
               </span>
             </p>
+             </Link>
+           
           </div>
         </div>
       </div>
