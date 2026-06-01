@@ -23,12 +23,23 @@ import { toast } from "sonner";
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {
-      console.error(error);
-       if(error.status === 401){
-         toast.error("your account is not verified yet. Please verify your account first")
-         navigate("/verify", {state:{email:data.email}})
-       }
-    }
+  console.log(error);
+
+  if (error?.data?.message === "password  does  not  match") {
+    toast.error("Password does not match");
+    return;
+  }
+
+  if (error?.data?.message === "User is not verified") {
+    toast.error("Your account is not verified yet.");
+    navigate("/verify", {
+      state: { email: data.email },
+    });
+    return;
+  }
+
+  toast.error(error?.data?.message || "Login failed");
+}
    }
 
   return (

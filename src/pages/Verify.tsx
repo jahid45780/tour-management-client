@@ -23,7 +23,7 @@ import { useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
-import { useSentOtpMutation} from "@/redux/features/auth/auth.api"
+import { useSentOtpMutation, useVerifyOtpMutation} from "@/redux/features/auth/auth.api"
 
 
 const FormSchema = z.object({
@@ -44,6 +44,7 @@ const Verify = () => {
   const { email } = location.state || {};
   const [confirm, setConfirm ] = useState(false)
   const [sendOtp] = useSentOtpMutation()
+  const [verifyOtp]= useVerifyOtpMutation()
 
 
    const handleSendOtp = async () => {
@@ -63,8 +64,24 @@ const Verify = () => {
   };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data)
-  }
+
+    const toastId = toast.loading("verifying OTP")
+
+    const userInfo = {
+      email,
+      otp: data.pin
+    }
+    try {
+      const res = await verifyOtp(userInfo).unwrap();
+
+      if (res.success) {
+        toast.success("OTP Verified", { id: toastId });
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Invalid OTP", { id: toastId });
+    }
+  };
 
   return (
     <div>
