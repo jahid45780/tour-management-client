@@ -19,11 +19,12 @@ import {
 } from "@/components/ui/input-otp"
 import z from "zod"
 import { useLocation } from "react-router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 import { useSentOtpMutation, useVerifyOtpMutation} from "@/redux/features/auth/auth.api"
+import { cn } from "@/lib/utils"
 
 
 const FormSchema = z.object({
@@ -45,7 +46,7 @@ const Verify = () => {
   const [confirm, setConfirm ] = useState(false)
   const [sendOtp] = useSentOtpMutation()
   const [verifyOtp]= useVerifyOtpMutation()
-
+  const [timer, setTimer] = useState(20)
 
    const handleSendOtp = async () => {
     const toastId = toast.loading("Sending OTP");
@@ -56,7 +57,7 @@ const Verify = () => {
       if (res.success) {
         toast.success("OTP Sent", { id: toastId });
         setConfirm(true);
-        
+        setTimer(20);
       }
     } catch (err) {
       console.log(err);
@@ -83,6 +84,20 @@ const Verify = () => {
     }
   };
 
+  useEffect(()=>{
+   if(!email || !confirm){
+          return;
+   }
+
+    const timerId = setInterval(() => {
+      setTimer((prev) => (prev > 0 ? prev - 1 : 0));
+      console.log("Tick");
+    }, 2000);
+
+    return ()=> clearInterval(timerId);
+
+  },[email, confirm])
+
   return (
     <div>
 
@@ -101,10 +116,24 @@ const Verify = () => {
                 Verification code
               </FieldLabel>
 
-              <Button type="button" variant="outline" size="sm">
+              <Button 
+                 onClick={handleSendOtp}
+                          type="button"
+                          variant="link"
+                          disabled={timer !== 0}
+                          className={cn("p-0 m-0", {
+                            "cursor-pointer": timer === 0,
+                            "text-gray-500": timer !== 0,
+                          })}
+              >
                 <RefreshCwIcon className="mr-2 h-4 w-4" />
                 Resend Code
               </Button>
+              {timer > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Resend code in {timer} seconds
+                </p>
+              )}
             </div>
 
             <Controller
