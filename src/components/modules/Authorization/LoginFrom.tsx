@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import config from "@/config";
 
 
    
@@ -18,7 +19,11 @@ import { toast } from "sonner";
     try {
       
       const res = await login(data).unwrap()
-      toast.success("login successful")
+      // toast.success("login successful")
+      if(res.success){
+        toast.success("login successful")
+         navigate("/")
+      }
       console.log(res)
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -127,7 +132,9 @@ import { toast } from "sonner";
             </div>
 
             {/* Google Button */}
-            <button className="w-full h-12 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 text-white font-medium transition">
+            <button 
+             onClick={()=> window.open(`${config.baseUrl}/auth/google`)}
+             className="w-full h-12 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 text-white font-medium transition">
               Continue with Google
             </button>
 
