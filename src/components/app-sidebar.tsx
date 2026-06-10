@@ -7,38 +7,22 @@ import {
   SidebarContent,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { TerminalSquareIcon, } from "lucide-react"
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api"
+import { getSidebarItems } from "@/utils/getSideberItem"
 
 
 // This is sample data.
-const data = {
 
-  navMain: [
-    {
-      title: "Tour Management",
-      url: "#",
-      icon: (
-        <TerminalSquareIcon
-        />
-      ),
-      isActive: true,
-      items: [
-        {
-          title: "Analytics",
-          url: "/admin/analytics",
-        },
-        {
-          title: "Add Tour",
-          url: "/admin/add-tour",
-        },
-       
-      ],
-    },
-  
-  ],
-}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const {data: userData} = useUserInfoQuery(undefined)
+  
+  const data = {
+  // navMain:adminSidebarItems
+  navMain:getSidebarItems(userData?.data?.role)
+}
+
   return (
     <Sidebar collapsible="icon" {...props}>
            <h1>logo</h1>
