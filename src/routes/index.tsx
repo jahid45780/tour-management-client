@@ -8,6 +8,8 @@ import { generateRoutes } from "@/utils/generateRoutes";
 import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItemes";
 import { userSidebarItems } from "./userSidebarItems";
+import { withAuth } from "@/utils/withAuth";
+import Authorized from "@/pages/Authorized";
 
  export const router = createBrowserRouter([
    { 
@@ -15,7 +17,7 @@ import { userSidebarItems } from "./userSidebarItems";
     path:'/',
     children:[
       {
-         Component:About,
+         Component:withAuth(About),
          path:'/about'
       }
   ]
@@ -45,5 +47,9 @@ import { userSidebarItems } from "./userSidebarItems";
 {
     Component:Verify,
     path:'/verify'
+},
+{
+    Component:Authorized,
+    path:'/authorized'
 }
 ])
