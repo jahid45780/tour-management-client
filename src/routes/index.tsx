@@ -9,7 +9,9 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItemes";
 import { userSidebarItems } from "./userSidebarItems";
 import { withAuth } from "@/utils/withAuth";
-import Authorized from "@/pages/Authorized";
+import Unauthorized from "@/pages/Unauthorized";
+import { role } from "@/constants/role";
+import type { IRole } from "@/types";
 
  export const router = createBrowserRouter([
    { 
@@ -23,7 +25,7 @@ import Authorized from "@/pages/Authorized";
   ]
 },
 {
-  Component:DashboardLayout,
+  Component:withAuth (DashboardLayout, role.ADMIN as IRole),
   path:'/admin',
   children:[
     {index:true, element:<Navigate to="/admin/analytics"/>},
@@ -49,7 +51,7 @@ import Authorized from "@/pages/Authorized";
     path:'/verify'
 },
 {
-    Component:Authorized,
-    path:'/authorized'
+    Component:Unauthorized,
+    path:'/unauthorized'
 }
 ])

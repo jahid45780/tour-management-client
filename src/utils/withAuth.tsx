@@ -4,6 +4,7 @@ import type { IRole } from "@/types";
 import type { ComponentType } from "react";
 import { Navigate } from "react-router-dom";
 
+
 export const withAuth = (Component:ComponentType, requiredRole?:IRole)=>{
     return function AuthWrapper(){
 
@@ -16,7 +17,7 @@ export const withAuth = (Component:ComponentType, requiredRole?:IRole)=>{
         }
 
         if(requiredRole && !isLoading && requiredRole !== data?.data?.role){
-           return <Navigate to="/authorized" />
+           return <Navigate to="/unauthorized" />
         }
 
       return <Component/>

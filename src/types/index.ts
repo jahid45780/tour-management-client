@@ -19,4 +19,9 @@ export interface ISidebarItem {
         }[]
 }
 
+
 export type IRole  = "ADMIN" | "SUPER_ADMIN"  | "USER" 
+
+ export type TTourTypeForm = {
+  name: string;
+};
