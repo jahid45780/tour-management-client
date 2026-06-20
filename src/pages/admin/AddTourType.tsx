@@ -1,20 +1,34 @@
 
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useGetTourTypesQuery } from "@/redux/features/tour/tour.api";
-import { Trash2 } from "lucide-react";
+import { useGetTourTypesQuery, useTourTypeRemoveMutation } from "@/redux/features/tour/tour.api";
+// import { Trash2 } from "lucide-react";
 import { AddTourTypeModal } from "./AddTourTypeModal";
-
-
-
-
+import { DeleteConfirmation } from "@/components/deleteConfirmation";
+import { Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 
 
 const AddTourType = () => {
 
     const {data} = useGetTourTypesQuery(undefined)
-    console.log(data);
+    const [removeTourType] = useTourTypeRemoveMutation()
+
+    const handleRemoveTourType = async ( tourId:string )=>{
+      const toastId = toast.loading("Deleting")
+        try {
+    const res = await removeTourType(tourId).unwrap();
+
+    if (res.success) {
+      toast.success("Tour Type Deleted Successfully", {id:toastId});
+    }
+  } catch (error) {
+    toast.error("Failed to delete Tour Type");
+    console.log(error);
+  }
+
+    }
 
     return (
         <div className=" w-full max-w-7xl mx-auto px-5" >
@@ -35,14 +49,20 @@ const AddTourType = () => {
       </TableHeader>
     
       <TableBody>
-      {  data?.map((item:{name:string} )=> <TableRow>
+      {  data?.map((item:{ _id:string, name:string} )=> <TableRow>
       
           <TableCell className="font-medium w-full"> {item?.name} </TableCell>
 
          <TableCell className="font-medium ml-auto"> 
-            <Button>
+         
+            <DeleteConfirmation
+             onConfirm={()=> handleRemoveTourType(item._id)}
+            >
+                    <Button>
                <Trash2 size={18} />
             </Button>
+            </DeleteConfirmation>
+          
            </TableCell> 
          
         </TableRow>)}
