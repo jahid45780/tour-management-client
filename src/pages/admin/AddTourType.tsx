@@ -2,11 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useGetTourTypesQuery, useTourTypeRemoveMutation } from "@/redux/features/tour/tour.api";
-// import { Trash2 } from "lucide-react";
-import { AddTourTypeModal } from "./AddTourTypeModal";
 import { DeleteConfirmation } from "@/components/deleteConfirmation";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { AddTourTypeModal } from "@/components/modules/Admin/AddTourType/AddTourTypeModal";
 
 
 
@@ -36,7 +35,8 @@ const AddTourType = () => {
       <div className=" flex  justify-between m-4" >
         <h1>Tour Type</h1>
         <Button>
-       <AddTourTypeModal/>
+      <AddTourTypeModal/>
+
         </Button>
       </div>
 

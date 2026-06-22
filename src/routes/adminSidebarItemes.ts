@@ -26,16 +26,17 @@ export const adminSidebarItems:ISidebarItem[] = [
         url: "/admin/add-tour-type",
         component: AddTourType,
       },
+        {
+        title: "Add Division",
+        url: "/admin/add-add-division",
+        component: AddDivision,
+      },
       {
         title: "Add Tour",
         url: "/admin/add-tour",
         component: AddTour,
       },
-      {
-        title: "Add Division",
-        url: "/admin/add-add-division",
-        component: AddDivision,
-      },
+    
    
     ],
   },

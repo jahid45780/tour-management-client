@@ -10,8 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { useTourTypeCreateMutation } from "@/redux/features/tour/tour.api";
-import type { TTourTypeForm } from "@/types";
+import type { TTourTypeForm } from "@/types";;
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -37,24 +38,26 @@ export function AddTourTypeModal() {
         <Button>Add Tour Type</Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Add Tour Type</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div className="space-y-2">
+          <div className="flex flex-col gap-2">
             <label className="text-sm font-medium">
               Tour Type Name
             </label>
 
-            <input
+            <Input
               type="text"
               {...register("name", { required: true })}
               placeholder="Enter tour type name"
-              className="w-full h-12 rounded-xl border px-4 outline-none"
+              className="w-full h-12 rounded-xl border px-4  outline-none"
             />
           </div>
+          
+
 
           <DialogFooter>
             <DialogClose asChild>
@@ -70,5 +73,7 @@ export function AddTourTypeModal() {
         </form>
       </DialogContent>
     </Dialog>
+
+
   );
 }

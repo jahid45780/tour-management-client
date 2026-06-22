@@ -25,3 +25,8 @@ export type IRole  = "ADMIN" | "SUPER_ADMIN"  | "USER"
  export type TTourTypeForm = {
   name: string;
 };
+
+ export type TDivisionForm = {
+  name: string;
+  description: string;
+};
