@@ -13,16 +13,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useDivisionCreateMutation } from "@/redux/features/division/division.api";
 import type { TDivisionForm } from "@/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 
 
 export function AddDivisionModal() {
+  const [open, setOpen] = useState(false)
   const { register, handleSubmit } = useForm<TDivisionForm>();
  const [image, setImage] = useState<File | null>(null);
 
+ const [addTourDivision] = useDivisionCreateMutation()
 
   const onSubmit = async (data:TDivisionForm) => {
 
@@ -30,11 +34,19 @@ export function AddDivisionModal() {
       const formData = new FormData();
       formData.append("data", JSON.stringify(data));
       formData.append("file", image as File)
-  
+   
+      try {
+         await addTourDivision(formData).unwrap()
+         toast.success("add the division")
+         setOpen(false)
+      } catch (error) {
+        console.log(error);
+      }
+
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
         <Button>Add Tour Division</Button>
       </DialogTrigger>

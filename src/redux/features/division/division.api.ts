@@ -5,22 +5,22 @@ export const DivisionApi = baseApi.injectEndpoints({
     endpoints:(build)=>({
         divisionCreate:build.mutation({
             query:(divisionName)=>({
-                url:"/tour/create-tour-type",
+                url:"/division/create",
                 method:"POST",
                 data:divisionName
             }),
-            invalidatesTags:["TOUR"]
+            invalidatesTags:["DIVISION"]
         }),
 
-       getTourTypes:build.query({
+       getTourDivision:build.query({
             query:()=>({
-                url:"/tour/tour-types",
+                url:"/division",
                 method:"GET"
             }),
-            providesTags:["TOUR"],
+            providesTags:["DIVISION"],
           
         })
     })
 })
 
-export const { useDivisionCreateMutation } = DivisionApi
+export const { useDivisionCreateMutation, useGetTourDivisionQuery } = DivisionApi

@@ -49,7 +49,7 @@ const AddTourType = () => {
       </TableHeader>
     
       <TableBody>
-      {  data?.map((item:{ _id:string, name:string} )=> <TableRow>
+      {  data?.data?.map((item:{ _id:string, name:string} )=> <TableRow>
       
           <TableCell className="font-medium w-full"> {item?.name} </TableCell>
 
