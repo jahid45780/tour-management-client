@@ -1,5 +1,5 @@
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 
 import {
   Card,
@@ -22,9 +22,9 @@ import {
 } from "@/components/ui/select";
 
 import { useGetTourDivisionQuery } from "@/redux/features/division/division.api";
-import { useGetTourTypesQuery, useTourCreateMutation } from "@/redux/features/tour/tour.api";
+import { useGetTourTypesQuery, useTourCreateMutation} from "@/redux/features/tour/tour.api";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, Plus, Trash2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format, formatISO } from "date-fns";
 import MultipleImageUploader from "@/components/MultipleImageUploader";
@@ -35,11 +35,30 @@ import { toast } from "sonner";
 
 type TourFormData = {
   title: string;
-  description: string;
+  descriptions: string;
   division: string;
   tourType: string;
   startDate: Date;
   endDate: Date;
+  location:string;
+  departureLocation:string;
+  arrivalLocation:string;
+  maxGuest:number;
+  minAge:number;
+  costFrom:number;
+    included: {
+    value: string;
+  }[];
+   excluded: {
+    value: string;
+  }[];
+   amenities: {
+    value: string;
+  }[];
+     tourPlan: {
+    value: string;
+  }[];
+
 };
 
 
@@ -47,8 +66,41 @@ const AddTour = () => {
 
   const [images, setImages] = useState<(File | FileMetadata)[] | []>([]);
 
-  const { register, handleSubmit, control } =
+  const { register, handleSubmit, reset, control } =
     useForm<TourFormData>();
+
+    const {fields, append, remove} = useFieldArray({
+          control,
+          name:"included"
+    })
+
+        const {
+          fields:excludedFields,
+          append:excludedAppend,
+           remove:excludedRemove
+        } = useFieldArray({
+          control,
+          name:"excluded"
+    })
+
+      const {
+          fields:amenitiesFields,
+          append:amenitiesAppend,
+           remove:amenitiesRemove
+        } = useFieldArray({
+          control,
+          name:"amenities"
+    })
+
+        const {
+          fields:tourPlanFields,
+          append:tourPlanAppend,
+           remove:tourPlanRemove
+        } = useFieldArray({
+          control,
+          name:"tourPlan"
+    })
+
 
   const { data: divisionData } =
     useGetTourDivisionQuery(undefined);
@@ -78,9 +130,18 @@ const AddTour = () => {
 
    const tourData ={
     ...data,
+    costFrom: Number(data.costFrom),
+    maxGuest: Number(data.maxGuest),
+    minAge: Number(data.minAge),
     startDate: formatISO(data.startDate),
-    endData: formatISO(data.endDate)
+    endDate: formatISO(data.endDate),
+    included:data.included.map((item:{value:string})=>item.value),
+    excluded:data.excluded.map((item:{value:string})=>item.value),
+    amenities:data.amenities.map((item:{value:string})=>item.value),
+    tourPlan:data.tourPlan.map((item:{value:string})=>item.value)
    }
+
+   console.log(tourData);
 
    const formData = new FormData()
    
@@ -92,6 +153,7 @@ const AddTour = () => {
        
       if(res.success){
         toast.success("create tour successfully")
+        reset()
       }
       console.log(res);
 
@@ -129,6 +191,99 @@ const AddTour = () => {
           className="h-11"
           {...register("title", { required: true })}
         />
+      </div>
+
+      {/* location and  tourPrice */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5" >
+           {/* location  */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          Location
+        </label>
+
+        <Input
+          placeholder="Enter tour location"
+          {...register("location", { required: true })}
+        />
+      </div>
+
+         {/* Price  */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          Cost
+        </label>
+
+        <Input
+          placeholder="Enter Tour Price"
+          type="number"
+          {...register("costFrom", { required: true, valueAsNumber: true, })}
+        />
+      </div>
+
+      </div>
+
+         {/* departureLocation and  arrivalLocation */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5" >
+           {/* departureLocation  */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          Departure Location
+        </label>
+
+        <Input
+          placeholder="Enter tour departureLocation"
+          defaultValue={"Dhaka"}
+          {...register("departureLocation", { required: true })}
+        />
+      </div>
+
+         {/* arrivalLocation  */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          Arrival Location
+        </label>
+
+        <Input
+          placeholder="Enter Tour arrivalLocation"
+           defaultValue={"USA"}
+          {...register("arrivalLocation", { required: true })}
+        />
+      </div>
+
+      </div>
+
+
+        {/* maxGuest and  minAge */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5" >
+           {/* maxGuest  */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          Max Guest
+        </label>
+
+        <Input
+          placeholder="Enter tour location"
+          type="number"
+          {...register("maxGuest", { required: true, valueAsNumber: true, })}
+        />
+      </div>
+
+         {/* Price  */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          Min Age
+        </label>
+
+        <Input
+          placeholder="Enter Tour Price"
+          type="number"
+          {...register("minAge", { required: true, valueAsNumber: true, })}
+        />
+      </div>
+
       </div>
 
       {/* Division + Tour Type */}
@@ -318,7 +473,7 @@ const AddTour = () => {
         <Textarea
           placeholder="Enter tour description"
           className="min-h-[180px]"
-          {...register("description", {
+          {...register("descriptions", {
             required: true,
           })}
         />
@@ -326,7 +481,192 @@ const AddTour = () => {
 
       <MultipleImageUploader onChange={setImages} />
 
-     </div>       
+     </div> 
+
+     <div className=" border-t border-muted w-full" ></div>  
+
+{/* included */}
+     <div>
+
+  <div className=" flex items-center justify-between " >
+
+          <label className="text-sm font-bold">
+        Included
+      </label>
+
+      <Button 
+      type="button"
+      size="icon"
+      onClick={()=> append({value:""})} >
+        <Plus/>
+      </Button>
+
+  </div>
+  
+   <div className=" flex-1 " >
+  {fields.map((item, index) => (
+  <div key={item.id} className="space-y-2 flex gap-2 mt-2 ">
+  
+
+    <Input
+      placeholder="Enter included item"
+      {...register(`included.${index}.value` as const, {
+        required: true,
+      })}
+    />
+  
+  <Button
+   type="button"
+    size="icon"
+    onClick={()=> remove(index)}
+  >
+      <Trash2/>
+    </Button>
+  
+  
+  </div>
+))}
+</div>
+
+
+      </div>   
+
+      {/* excluded */}
+     <div>
+
+  <div className=" flex items-center justify-between " >
+
+          <label className="text-sm font-bold">
+        Excluded
+      </label>
+
+      <Button 
+      type="button"
+      size="icon"
+      onClick={()=> excludedAppend({value:""})} >
+        <Plus/>
+      </Button>
+
+  </div>
+  
+   <div className=" flex-1 " >
+  {excludedFields.map((item, index) => (
+  <div key={item.id} className="space-y-2 flex gap-2 mt-2 ">
+  
+
+    <Input
+      placeholder="Enter excluded item"
+      {...register(`excluded.${index}.value` as const, {
+        required: true,
+      })}
+    />
+  
+  <Button
+   type="button"
+    size="icon"
+    onClick={()=> excludedRemove(index)}
+  >
+      <Trash2/>
+    </Button>
+  
+  
+  </div>
+))}
+</div>
+
+
+      </div>  
+
+       {/* amenities */}
+     <div>
+
+  <div className=" flex items-center justify-between " >
+
+          <label className="text-sm font-bold">
+        Amenities
+      </label>
+
+      <Button 
+      type="button"
+      size="icon"
+      onClick={()=> amenitiesAppend({value:""})} >
+        <Plus/>
+      </Button>
+
+  </div>
+  
+   <div className=" flex-1 " >
+  {amenitiesFields.map((item, index) => (
+  <div key={item.id} className="space-y-2 flex gap-2 mt-2 ">
+  
+
+    <Input
+      placeholder="Enter amenities item"
+      {...register(`amenities.${index}.value` as const, {
+        required: true,
+      })}
+    />
+  
+  <Button
+   type="button"
+    size="icon"
+    onClick={()=> amenitiesRemove(index)}
+  >
+      <Trash2/>
+    </Button>
+  
+  
+  </div>
+))}
+</div>
+
+
+      </div>  
+
+       {/* tourPlan */}
+     <div>
+
+  <div className=" flex items-center justify-between " >
+
+          <label className="text-sm font-bold">
+       Tour Plan
+      </label>
+      <Button 
+      type="button"
+      size="icon"
+      onClick={()=> tourPlanAppend({value:""})} >
+        <Plus/>
+      </Button>
+
+  </div>
+  
+   <div className=" flex-1 " >
+  {tourPlanFields.map((item, index) => (
+  <div key={item.id} className="space-y-2 flex gap-2 mt-2 ">
+  
+
+    <Input
+      placeholder="Enter Tour item"
+      {...register(`tourPlan.${index}.value` as const, {
+        required: true,
+      })}
+    />
+  
+  <Button
+   type="button"
+    size="icon"
+    onClick={()=> tourPlanRemove(index)}
+  >
+      <Trash2/>
+    </Button>
+  
+  
+  </div>
+))}
+</div>
+
+
+      </div>  
 
       {/* Submit Button Center */}
       <div className="flex justify-center pt-4">
