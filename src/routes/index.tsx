@@ -15,6 +15,8 @@ import type { IRole } from "@/types";
 import Tour from "@/pages/Tour";
 import TourDetails from "@/pages/TourDetails";
 import HomePage from "@/pages/HomePage";
+import Booking from "@/pages/Booking";
+
 
  export const router = createBrowserRouter([
    { 
@@ -36,6 +38,10 @@ import HomePage from "@/pages/HomePage";
       {
         Component:TourDetails,
         path:'/tours/:id'
+      },
+      {
+        Component:Booking,
+        path:"/booking/:id"
       }
   ]
 },

@@ -11,7 +11,7 @@ const TourDetails = () => {
   
   const { data: divisionData } = useGetTourDivisionQuery(
     {
-      _id: data?.data?.[0]?.division,
+      _id: data?.[0]?.division,
       fields: "name",
     },
     {
@@ -21,7 +21,7 @@ const TourDetails = () => {
 
 
 
-  const tourData = data?.data?.[0];
+  const tourData = data?.[0];
 
   if (isLoading) {
     return <p>Loading...</p>;

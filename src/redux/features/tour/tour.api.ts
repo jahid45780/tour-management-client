@@ -1,4 +1,6 @@
 import { baseApi } from "@/redux/baseApi"
+import type { IResponse } from "@/types"
+import type { ITourPackage } from "@/types/tourTypes"
 
 
 export const tourApi = baseApi.injectEndpoints({
@@ -21,13 +23,14 @@ export const tourApi = baseApi.injectEndpoints({
             invalidatesTags:["TOUR"]
         }),
 
-           getAllTours:build.query({
-            query:()=>({
+           getAllTours:build.query<ITourPackage[], unknown>({
+            query:(params)=>({
                 url:"/tour",
                 method:"GET",
-              
+               params: params,
             }),
-            providesTags:["TOUR"]
+            providesTags:["TOUR"],
+            transformResponse: (response: IResponse<ITourPackage[]>) => response.data,
         }),
 
           tourTypeRemove:build.mutation({

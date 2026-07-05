@@ -17,7 +17,7 @@ const Tour = () => {
       {/* <TourFilters /> */}
       
       <div className="col-span-9 w-full">
-        {data?.data?.map((item) => (
+        {data?.map((item) => (
           <div
             key={item.slug}
             className="border border-muted rounded-lg shadow-md overflow-hidden mb-6 flex"
@@ -31,7 +31,7 @@ const Tour = () => {
             </div>
             <div className="p-6 flex-1">
               <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-muted-foreground mb-3">{item.description}</p>
+              <p className="text-muted-foreground mb-3">{item.descriptions}</p>
 
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xl font-bold text-primary">
