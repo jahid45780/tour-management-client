@@ -6,12 +6,26 @@ import { DeleteConfirmation } from "@/components/deleteConfirmation";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { AddTourTypeModal } from "@/components/modules/Admin/AddTourType/AddTourTypeModal";
-
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+import { useState } from "react";
 
 
 const AddTourType = () => {
 
-    const {data} = useGetTourTypesQuery(undefined)
+    const [currentPage, setCurrentPage] = useState(1)
+
+
+    const {data} = useGetTourTypesQuery({page:currentPage, limit:10})
+
+   
     const [removeTourType] = useTourTypeRemoveMutation()
 
     const handleRemoveTourType = async ( tourId:string )=>{
@@ -49,7 +63,7 @@ const AddTourType = () => {
       </TableHeader>
     
       <TableBody>
-      {  data?.data?.map((item:{ _id:string, name:string} )=> <TableRow>
+      {  data?.map((item:{ _id:string, name:string} )=> <TableRow>
       
           <TableCell className="font-medium w-full"> {item?.name} </TableCell>
 
@@ -68,10 +82,42 @@ const AddTourType = () => {
         </TableRow>)}
     
       </TableBody>
-
-
       
     </Table>
+
+
+    <div>
+      
+      <Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious 
+       onClick={()=> setCurrentPage((prev)=> prev -1)}
+      />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>
+        2
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext 
+      onClick={()=> setCurrentPage((prev)=> prev + 1)} />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+
+      </div> 
+
         </div>
     );
 };

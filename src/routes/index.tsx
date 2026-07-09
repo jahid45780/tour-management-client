@@ -16,6 +16,9 @@ import Tour from "@/pages/Tour";
 import TourDetails from "@/pages/TourDetails";
 import HomePage from "@/pages/HomePage";
 import Booking from "@/pages/Booking";
+import PaymentSuccess from "@/components/modules/Admin/Payment/PaymentSuccess";
+import PaymentFail from "@/components/modules/Admin/Payment/PaymentFail";
+import PaymentCancel from "@/components/modules/Admin/Payment/PaymentCancel";
 
 
  export const router = createBrowserRouter([
@@ -74,5 +77,18 @@ import Booking from "@/pages/Booking";
 {
     Component:Unauthorized,
     path:'/unauthorized'
+},
+{
+    Component:PaymentSuccess,
+    path:'/payment/success'
+},
+{
+    Component:PaymentFail,
+    path:'/payment/fail'
+},
+{
+    Component:PaymentCancel,
+    path:'/payment/cancel'
 }
+
 ])

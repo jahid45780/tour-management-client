@@ -42,9 +42,10 @@ export const tourApi = baseApi.injectEndpoints({
         }),
 
        getTourTypes:build.query({
-            query:()=>({
+            query:(params)=>({
                 url:"/tour/tour-types",
-                method:"GET"
+                method:"GET",
+                params
             }),
             providesTags:["TOUR"],
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
