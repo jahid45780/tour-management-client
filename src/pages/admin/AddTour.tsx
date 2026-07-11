@@ -117,7 +117,7 @@ const AddTour = () => {
     ) || [];
 
   const tourTypeOptions =
-    tourTypeData?.map(
+    tourTypeData?.data?.map(
       (item: { _id: string; name: string }) => ({
         value: item._id,
         label: item.name,

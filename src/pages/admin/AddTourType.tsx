@@ -22,10 +22,8 @@ const AddTourType = () => {
 
     const [currentPage, setCurrentPage] = useState(1)
 
-
-    const {data} = useGetTourTypesQuery({page:currentPage, limit:10})
-
-   
+    const {data} = useGetTourTypesQuery({page:currentPage})
+  
     const [removeTourType] = useTourTypeRemoveMutation()
 
     const handleRemoveTourType = async ( tourId:string )=>{
@@ -42,6 +40,8 @@ const AddTourType = () => {
   }
 
     }
+
+    const totalPages = data?.meta?.totalPage;
 
     return (
         <div className=" w-full max-w-7xl mx-auto px-5" >
@@ -63,7 +63,7 @@ const AddTourType = () => {
       </TableHeader>
     
       <TableBody>
-      {  data?.map((item:{ _id:string, name:string} )=> <TableRow>
+      { data?.data?.map((item:{ _id:string, name:string} )=> <TableRow>
       
           <TableCell className="font-medium w-full"> {item?.name} </TableCell>
 
@@ -86,35 +86,44 @@ const AddTourType = () => {
     </Table>
 
 
-    <div>
-      
+    <div className="mt-4 text-shadow-border" >
+
       <Pagination>
   <PaginationContent>
     <PaginationItem>
       <PaginationPrevious 
        onClick={()=> setCurrentPage((prev)=> prev -1)}
+       className = {currentPage === 1 ? 
+        "pointer-events-none opacity-50" 
+        : " cursor-pointer "}
       />
     </PaginationItem>
     <PaginationItem>
-      <PaginationLink href="#">1</PaginationLink>
+      <PaginationLink className="animate-bounce" href="#">{currentPage}</PaginationLink>
     </PaginationItem>
     <PaginationItem>
-      <PaginationLink href="#" isActive>
+      {/* <PaginationLink href="#" isActive>
         2
-      </PaginationLink>
+      </PaginationLink> */}
     </PaginationItem>
     <PaginationItem>
-      <PaginationLink href="#">3</PaginationLink>
+      {/* <PaginationLink href="#">3</PaginationLink> */}
     </PaginationItem>
     <PaginationItem>
       <PaginationEllipsis />
     </PaginationItem>
     <PaginationItem>
       <PaginationNext 
+        className = {currentPage === totalPages ? 
+        "pointer-events-none opacity-50" 
+        : " cursor-pointer "}
       onClick={()=> setCurrentPage((prev)=> prev + 1)} />
+       
     </PaginationItem>
   </PaginationContent>
 </Pagination>
+
+
 
       </div> 
 

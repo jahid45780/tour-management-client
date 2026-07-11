@@ -39,7 +39,7 @@ export const tourApi = baseApi.injectEndpoints({
                 method:"DELETE",
             }),
             invalidatesTags:["TOUR"]
-        }),
+        }), 
 
        getTourTypes:build.query({
             query:(params)=>({
@@ -48,8 +48,7 @@ export const tourApi = baseApi.injectEndpoints({
                 params
             }),
             providesTags:["TOUR"],
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            transformResponse: (response: any) => response.data,
+
         })
     })
 })

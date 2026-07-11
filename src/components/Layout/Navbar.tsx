@@ -10,6 +10,7 @@ import {
 } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { role } from "@/constants/role";
+import Logo from "@/utils/Logo/Logo";
 
 
 const Navbar = () => {
@@ -49,13 +50,7 @@ const Navbar = () => {
           
           {/* Logo */}
           <Link to={"/"} className="flex items-center gap-3" >
-            <div className="w-11 h-11 rounded-full bg-cyan-500 flex items-center justify-center text-white font-bold text-xl">
-              T
-            </div>
-
-            <h1 className="text-2xl font-extrabold">
-              Tour<span className="text-cyan-500">Wave</span>
-            </h1>
+            <Logo/>
           </Link>
 
          {/* Desktop Menu */}

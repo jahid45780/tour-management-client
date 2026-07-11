@@ -1,3 +1,5 @@
+import Logo from "@/utils/Logo/Logo";
+
 const Footer = () => {
   return (
      <footer className="bg-background/80 backdrop-blur-md text-gray-400">
@@ -7,7 +9,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <h2 className="text-2xl font-bold text-foreground">
-              Tour<span className="text-cyan-400">Wave</span>
+             <Logo/>
             </h2>
 
             <p className="mt-4 text-sm leading-6 text-gray-400">

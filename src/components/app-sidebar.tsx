@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/sidebar"
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api"
 import { getSidebarItems } from "@/utils/getSideberItem"
+import Logo from "@/utils/Logo/Logo"
+import { Link } from "react-router-dom"
 
 
 // This is sample data.
@@ -25,7 +27,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar collapsible="icon" {...props}>
-           <h1>logo</h1>
+           <Link to="/" >
+           <Logo/>
+           </Link>
       <SidebarContent>
          <NavMain items={data.navMain} /> 
         
