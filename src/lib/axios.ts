@@ -20,6 +20,25 @@ axiosInstance.interceptors.request.use(
   }
 );
 
+ let isRefreshing = false;
+
+  let pendingQue : {
+     resolve:(value:unknown) => void,
+     reject:(error:unknown) => void
+  }[] = [];
+
+  const processQue = (error:unknown) =>{
+     pendingQue.forEach((promise) => {
+         if(error){
+            promise.reject(error)
+         } else {
+            promise.resolve(null)
+         }
+     })
+
+     pendingQue = [];
+  }
+
 // Add a response interceptor
 axiosInstance.interceptors.response.use(
   // function (response) {
@@ -36,15 +55,40 @@ axiosInstance.interceptors.response.use(
   (response) => {
        return response;
   }, async (error) => {
+
+    const originalRequest  = error.config;
+
       if (error.response.status === 500 &&
-       error.response.data.message === 'jwt expired' ) {
+       error.response.data.message === 'jwt expired' && 
+       !originalRequest._retry
+       ) 
+       {
             console.log('your token has expired')
+
+            originalRequest._retry = true;
+
+            if(isRefreshing){
+              return new Promise((resolve, reject) =>{
+                 pendingQue.push({resolve, reject})
+              })
+              .then(() => axiosInstance(originalRequest))
+              .catch((error)=> Promise.reject(error))
+            }
+
+            isRefreshing = true;
 
             try {
                const res  = await axiosInstance.post('/auth/refresh-token')
                console.log('new  token arrived', res)
+
+              processQue(null) 
+             return  axiosInstance(originalRequest)
+
             } catch (error){
-              console.error(error)
+              processQue(error)
+              return Promise.reject(error)
+            } finally {
+               isRefreshing = false
             }
 
        }
@@ -56,3 +100,4 @@ axiosInstance.interceptors.response.use(
 
 );
 
+    
