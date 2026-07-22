@@ -10,6 +10,8 @@ import {
   Legend,
 } from "recharts";
 import UserTable from "./stateTable/StateUserTable";
+import UsersHeader from "./stateTable/UsersHeader";
+import Loading from "@/components/shared/Loading";
 
 
 const COLORS = [
@@ -27,7 +29,7 @@ const Analytics = () => {
 
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading/>;
   }
 
   const roleData =
@@ -55,7 +57,7 @@ const Analytics = () => {
     <div>
 
       <div>
-        header
+        <UsersHeader/>
       </div>
 
       {/* all user table */}

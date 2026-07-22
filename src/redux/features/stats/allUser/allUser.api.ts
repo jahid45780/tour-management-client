@@ -24,12 +24,22 @@ import { baseApi } from "@/redux/baseApi";
               invalidatesTags:["USER"]
              }), 
 
-  
+
+             changeUserRole:build.mutation({
+                query:({id, role})=>({
+                url: `/user/change-role/${id}`,
+                method: "PATCH",
+                data: { role },
+                }),
+                invalidatesTags: ["USER"],
+             })
+
      }) 
 
 })
 
 export const {
    useGetAllUserQuery,
-   useUserRemoveMutation
+   useUserRemoveMutation,
+   useChangeUserRoleMutation
 } = allUserApi

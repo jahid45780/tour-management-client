@@ -17,25 +17,23 @@ import {
   Trash2,
   UserCog,
 } from "lucide-react";
-import { useGetAllUserQuery, useUserRemoveMutation } from "@/redux/features/stats/allUser/allUser.api";
+import { useChangeUserRoleMutation, useGetAllUserQuery, useUserRemoveMutation } from "@/redux/features/stats/allUser/allUser.api";
 import { DeleteConfirmation } from "@/components/deleteConfirmation";
 import { toast } from "sonner";
+import Loading from "@/components/shared/Loading";
 
 
 const UserTable = () => {
   const { data: allUserData, isLoading } = useGetAllUserQuery(undefined);
 
   const [ removeUser ] = useUserRemoveMutation()
+  const [changeUserRole] = useChangeUserRoleMutation()
 
   const users = allUserData || [];
 
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-60">
-        Loading...
-      </div>
-    );
+    return <Loading/>
   }
 
   const handleRemoveUser = async ( userId:string )=>{
@@ -52,6 +50,35 @@ const UserTable = () => {
     }
   
       }
+
+
+  const handleChangeRole = async (
+  id: string,
+  currentRole: string
+) => {
+  const toastId = toast.loading("Updating role...");
+
+  try {
+    const newRole =
+      currentRole === "ADMIN" ? "USER" : "ADMIN";
+
+    const res = await changeUserRole({
+      id,
+      role: newRole,
+    }).unwrap();
+
+    if (res.success) {
+      toast.success("Role Updated", {
+        id: toastId,
+      });
+    }
+  } catch (err) {
+    toast.error("Failed to update role", {
+      id: toastId,
+    });
+    console.log(err);
+  }
+};
 
   return (
     <div className="rounded-xl border  shadow-sm p-5">
@@ -162,16 +189,23 @@ const UserTable = () => {
                     </Button>
 
                     {/* Change Role */}
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                    >
-                      {user.role === "ADMIN" ? (
-                        <UserCog className="w-4 h-4" />
-                      ) : (
-                        <Shield className="w-4 h-4" />
-                      )}
-                    </Button>
+                   <DeleteConfirmation
+            title="Change User Role?"
+            description={`Make this user ${
+    user.role === "ADMIN" ? "USER" : "ADMIN"
+  }?`}
+  onConfirm={() =>
+    handleChangeRole(user._id, user.role)
+  }
+>
+  <Button size="icon">
+    {user.role === "ADMIN" ? (
+      <UserCog className="w-4 h-4" />
+    ) : (
+      <Shield className="w-4 h-4" />
+    )}
+  </Button>
+</DeleteConfirmation>
 
                     {/* Delete */}
                        <DeleteConfirmation

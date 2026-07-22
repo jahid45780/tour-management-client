@@ -1,4 +1,5 @@
 import TourFilters from "@/components/modules/Tours/TourFilters";
+import Loading from "@/components/shared/Loading";
 import { Button } from "@/components/ui/button";
 import { useGetAllToursQuery } from "@/redux/features/tour/tour.api";
 import { Link, useSearchParams } from "react-router-dom";
@@ -13,11 +14,7 @@ const Tour = () => {
   const { data, isLoading } = useGetAllToursQuery({ division, tourType });
 
   if (isLoading) {
-  return (
-    <div className="container mx-auto py-20 text-center">
-      <p className="text-lg">Loading tours...</p>
-    </div>
-  );
+  return <Loading/>
 }
  
     return (
