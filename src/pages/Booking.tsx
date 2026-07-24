@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { useBookingCreateMutation } from "@/redux/features/booking/booking.api";
 import { useGetAllToursQuery } from "@/redux/features/tour/tour.api";
 import {  useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 
 const Booking = () => {
@@ -53,8 +55,14 @@ const totalAmount =
             window.open(res?.data?.paymentUrl, "_blank")
           }
 
-     } catch(err){
+     } catch(err:any){
+        
         console.error("Error creating booking:", err);
+
+         toast.error(
+      err?.data?.message || "Something went wrong"
+    );
+
      }
   
   }
