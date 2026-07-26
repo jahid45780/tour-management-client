@@ -32,6 +32,16 @@ import { baseApi } from "@/redux/baseApi";
                 data: { role },
                 }),
                 invalidatesTags: ["USER"],
+             }),
+
+
+             updateProfile:build.mutation({
+                query:({id, data}) =>({
+                    url:`/user/${id}`,
+                    method: "PATCH",
+                    data:data
+                }),
+                invalidatesTags: ["USER"],
              })
 
      }) 
@@ -41,5 +51,6 @@ import { baseApi } from "@/redux/baseApi";
 export const {
    useGetAllUserQuery,
    useUserRemoveMutation,
-   useChangeUserRoleMutation
+   useChangeUserRoleMutation,
+   useUpdateProfileMutation
 } = allUserApi

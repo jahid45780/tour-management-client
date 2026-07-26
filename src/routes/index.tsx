@@ -43,7 +43,7 @@ import PaymentCancel from "@/components/modules/Admin/Payment/PaymentCancel";
         path:'/tours/:id'
       },
       {
-        Component:Booking,
+        Component:withAuth(Booking),
         path:"/booking/:id"
       }
   ]
