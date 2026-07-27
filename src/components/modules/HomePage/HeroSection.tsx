@@ -1,86 +1,427 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { useGetTourDivisionQuery } from "@/redux/features/division/division.api";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 
 const HeroSection = () => {
-      const [selectedDivision, setSelectedDivision] = useState<string | undefined>(
-    undefined
-  );
 
-  const { data: divisionData, isLoading: divisionIsLoading } =
+  const [selectedDivision, setSelectedDivision] = useState<
+    string | undefined
+  >(undefined);
+
+
+
+  const { data: divisionData, isLoading } =
     useGetTourDivisionQuery(undefined);
 
-  const divisionOption = divisionData?.data?.map(
-    (item: { _id: string; name: string }) => ({
-      label: item.name,
-      value: item._id,
-    })
-  );
 
-    return (
-        <div>
-             <section className="relative overflow-hidden py-32 min-h-screen">
-      <div className="absolute inset-x-0 top-0 flex h-full w-full items-center justify-center opacity-100">
-        <img
-          alt="background"
-          src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/patterns/square-alt-grid.svg"
-          className="[mask-image:radial-gradient(75%_75%_at_center,white,transparent)] opacity-90"
-        />
-      </div>
-      <div className="relative z-10 container mx-auto">
-        <div className="mx-auto flex max-w-5xl flex-col items-center">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <div className="rounded-xl bg-background/30 p-4 shadow-sm backdrop-blur-sm">
-              {/* <Logo /> */}
-            </div>
-            <div>
-              <h1 className="mb-6 text-2xl font-bold tracking-tight text-pretty lg:text-5xl">
-                Explore the beauty of{" "}
-                <span className="text-primary">Bangladesh</span>
-              </h1>
-              <p className="mx-auto max-w-3xl text-muted-foreground lg:text-xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Elig
-                doloremque mollitia fugiat omnis! Porro facilis quo animi
-                consequatur. Explicabo.
-              </p>
-            </div>
-            <div className="mt-6 flex justify-center gap-3">
-              <Select onValueChange={(value) => setSelectedDivision(value)}>
-                <SelectTrigger className="w-[300px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Divisions</SelectLabel>
-                    {divisionOption?.map(
-                      (item: { value: string; label: string }) => (
-                        <SelectItem key={item.value} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      )
-                    )}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
 
-              {selectedDivision ? (
-                <Button asChild>
-                  <Link to={`/tours?division=${selectedDivision}`}>Search</Link>
-                </Button>
-              ) : (
-                <Button disabled>Search</Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-        </div>
+  const divisionOption =
+    divisionData?.data?.map(
+      (item: {
+        _id: string;
+        name: string;
+      }) => ({
+        label: item.name,
+        value: item._id,
+      })
     );
+
+
+
+
+  return (
+
+    <section
+      className="
+      relative
+      min-h-[calc(100vh-80px)]
+      overflow-hidden
+      flex
+      items-center
+      "
+    >
+
+
+      {/* Background Image */}
+
+      <img
+        src="
+        https://images.unsplash.com/photo-1526772662000-3f88f10405ff
+        "
+        alt="Bangladesh Travel"
+        className="
+        absolute
+        inset-0
+        w-full
+        h-full
+        object-cover
+        "
+      />
+
+
+
+      {/* Overlay */}
+
+      <div
+        className="
+        absolute
+        inset-0
+        bg-gradient-to-r
+        from-slate-950/95
+        via-slate-950/80
+        to-purple-950/80
+        "
+      />
+
+
+
+      {/* Content */}
+
+      <div
+        className="
+        relative
+        z-10
+        container
+        mx-auto
+        px-5
+        lg:px-8
+        "
+      >
+
+
+        <div
+          className="
+          max-w-5xl
+          "
+        >
+
+
+          <h1
+            className="
+            text-5xl
+            md:text-7xl
+            font-extrabold
+            leading-[1.1]
+            tracking-tight
+            text-white
+            "
+          >
+
+            Explore the beauty of
+
+
+            <span
+              className="
+              block
+              mt-2
+              bg-gradient-to-r
+              from-cyan-400
+              via-blue-500
+              to-purple-500
+              bg-clip-text
+              text-transparent
+              "
+            >
+              Bangladesh
+            </span>
+
+
+          </h1>
+
+
+
+
+          <p
+            className="
+            mt-7
+            max-w-2xl
+            text-lg
+            md:text-xl
+            text-slate-200
+            leading-relaxed
+            "
+          >
+
+            Discover breathtaking destinations, hidden gems,
+            and unforgettable travel experiences across Bangladesh.
+            Start your journey with TourWave today.
+
+          </p>
+
+
+
+
+
+          {/* Search Box */}
+
+
+          <div
+            className="
+            mt-10
+            flex
+            flex-col
+            md:flex-row
+            gap-4
+            max-w-2xl
+            bg-white/10
+            backdrop-blur-xl
+            border
+            border-white/20
+            rounded-3xl
+            p-4
+            shadow-2xl
+            "
+          >
+
+
+
+            <Select
+              onValueChange={(value)=>
+                setSelectedDivision(value)
+              }
+            >
+
+
+              <SelectTrigger
+                className="
+                h-14
+                flex-1
+                bg-white
+                text-slate-800
+                rounded-xl
+                border-none
+                "
+              >
+
+                <SelectValue
+                  placeholder="Choose your destination"
+                />
+
+              </SelectTrigger>
+
+
+
+              <SelectContent>
+
+                <SelectGroup>
+
+                  <SelectLabel>
+                    Divisions
+                  </SelectLabel>
+
+
+                  {
+                    isLoading ? (
+
+                      <SelectItem
+                        value="loading"
+                        disabled
+                      >
+                        Loading...
+                      </SelectItem>
+
+
+                    ) : (
+
+
+                      divisionOption?.map(
+                        (
+                          item:{
+                            value:string;
+                            label:string
+                          }
+                        )=>(
+
+
+                          <SelectItem
+                            key={item.value}
+                            value={item.value}
+                          >
+
+                            {item.label}
+
+                          </SelectItem>
+
+
+                        )
+                      )
+
+
+                    )
+                  }
+
+
+                </SelectGroup>
+
+
+              </SelectContent>
+
+
+            </Select>
+
+
+
+
+
+            {
+              selectedDivision ? (
+
+
+                <Button
+                  asChild
+                  className="
+                  h-14
+                  px-10
+                  rounded-xl
+                  bg-gradient-to-r
+                  from-cyan-500
+                  to-blue-600
+                  hover:from-blue-600
+                  hover:to-purple-600
+                  text-white
+                  font-semibold
+                  shadow-lg
+                  transition-all
+                  "
+                >
+
+                  <Link
+                    to={`/tours?division=${selectedDivision}`}
+                  >
+
+                    Search Tours
+
+                  </Link>
+
+
+                </Button>
+
+
+
+              ) : (
+
+
+                <Button
+                  disabled
+                  className="
+                  h-14
+                  px-10
+                  rounded-xl
+                  "
+                >
+
+                  Search Tours
+
+                </Button>
+
+
+              )
+            }
+
+
+
+
+          </div>
+
+
+
+
+          {/* Small Stats */}
+
+          <div
+            className="
+            mt-10
+            flex
+            gap-8
+            text-white
+            "
+          >
+
+            <div>
+
+              <h3
+                className="
+                text-3xl
+                font-bold
+                "
+              >
+                64+
+              </h3>
+
+              <p className="text-slate-300">
+                Destinations
+              </p>
+
+            </div>
+
+
+
+            <div>
+
+              <h3
+                className="
+                text-3xl
+                font-bold
+                "
+              >
+                500+
+              </h3>
+
+              <p className="text-slate-300">
+                Happy Travelers
+              </p>
+
+            </div>
+
+
+
+            <div>
+
+              <h3
+                className="
+                text-3xl
+                font-bold
+                "
+              >
+                24/7
+              </h3>
+
+              <p className="text-slate-300">
+                Support
+              </p>
+
+            </div>
+
+
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+
+
+    </section>
+
+  );
 };
+
 
 export default HeroSection;

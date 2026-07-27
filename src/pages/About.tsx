@@ -2,10 +2,13 @@ import {
   ArrowRight,
   Globe,
   HeartHandshake,
+  LinkIcon,
+  Mail,
   MapPinned,
   ShieldCheck,
   Users,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const features = [
   {
@@ -44,6 +47,33 @@ const stats = [
   {
     number: "24/7",
     title: "Support",
+  },
+];
+
+  const leaders = [
+  {
+    name: "Md Jahid",
+    role: "Chief Executive Officer",
+    image:
+      "https://i.ibb.co.com/XxwwJG7b/Whats-App-Image-2026-07-27-at-1-52-51-PM.jpg",
+    description:
+      "Leading our vision and strategy to create unforgettable travel experiences for everyone.",
+  },
+  {
+    name: "Afia Akter",
+    role: "Chief Technology Officer",
+    image:
+      "https://i.ibb.co.com/zT5nP98L/Whats-App-Image-2026-07-27-at-1-57-48-PM.jpg",
+    description:
+      "Building secure, scalable, and innovative technology for seamless travel management.",
+  },
+  {
+    name: "Farzana Khatun",
+    role: "Chief Operating Officer",
+    image:
+      "https://i.ibb.co.com/wZQK0Tvq/Whats-App-Image-2026-07-27-at-2-02-40-PM.jpg",
+    description:
+      "Ensuring every tour delivers outstanding quality, comfort, and customer satisfaction.",
   },
 ];
 
@@ -256,6 +286,73 @@ promoting sustainable tourism and memorable adventures.
 
 </section>
 
+{/* Leadership Team */}
+
+<section className="py-24 border-y border-white/10 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="text-center mb-16">
+      <span className="inline-flex items-center rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-cyan-300 font-medium">
+        Leadership Team
+      </span>
+
+      <h2 className="mt-6 text-5xl font-extrabold text-white">
+        Meet Our
+        <span className="block bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+          Leadership Team
+        </span>
+      </h2>
+
+      <p className="mt-6 max-w-3xl mx-auto text-slate-300 leading-8">
+        Behind every unforgettable journey is a passionate team committed to
+        innovation, trust, and delivering exceptional travel experiences.
+      </p>
+    </div>
+
+    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {leaders.map((leader) => (
+        <div
+          key={leader.name}
+          className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-3 hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/10"
+        >
+          <div className="overflow-hidden">
+            <img
+              src={leader.image}
+              alt={leader.name}
+              className="h-96 w-full object-cover transition duration-500 group-hover:scale-110"
+            />
+          </div>
+
+          <div className="p-8">
+            <h3 className="text-2xl font-bold text-white">
+              {leader.name}
+            </h3>
+
+            <p className="mt-2 text-cyan-400 font-semibold">
+              {leader.role}
+            </p>
+
+            <p className="mt-5 text-slate-300 leading-7">
+              {leader.description}
+            </p>
+
+            <div className="mt-8 flex gap-4">
+              <button className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 transition hover:bg-cyan-500 hover:text-white">
+                <LinkIcon size={18} />
+              </button>
+
+              <button className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 transition hover:bg-purple-500 hover:text-white">
+                <Mail size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+
       {/* CTA */}
 
    <section className="py-24">
@@ -272,11 +369,12 @@ Ready For Your Next Adventure?
 Explore amazing destinations and create memories that last forever.
 </p>
 
+<Link to={"/tours"} >
 <button className="mt-10 px-8 py-4 rounded-xl bg-white text-slate-900 font-semibold hover:scale-105 transition">
 Explore Tours →
 </button>
-
-</div>
+</Link>
+</div> 
 
 </div>
 

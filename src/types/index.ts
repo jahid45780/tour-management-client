@@ -30,3 +30,9 @@ export type IRole  = "ADMIN" | "SUPER_ADMIN"  | "USER"
   name: string;
   description: string;
 };
+
+export type UFormValues = {
+  address: string;
+  phone: string;
+  image?: File | null;
+};

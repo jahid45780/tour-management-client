@@ -15,22 +15,22 @@ import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import SingleImageUploader from "@/components/SingleImageUploader";
+import type { UFormValues } from "@/types";
 
-type FormValues = {
-  address: string;
-  phone: string;
-};
 
 const UpdatedProfileModal = () => {
   const [open, setOpen] = useState(false);
 
-  const { data: userInfo } = useUserInfoQuery(undefined);
+   const [image, setImage] = useState<File | null>(null);
+  
+   const { data: userInfo } = useUserInfoQuery(undefined);
 
   const user = userInfo?.data;
 
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<UFormValues>();
 
   useEffect(() => {
     if (user) {
@@ -41,12 +41,22 @@ const UpdatedProfileModal = () => {
     }
   }, [user, reset]);
 
-  const onSubmit = async (formData: FormValues) => {
-    console.log(formData)
+  const onSubmit = async (formData: UFormValues) => {
+
+
+      const data = new FormData();
+
+    data.append("address", formData.address);
+    data.append("phone", formData.phone);
+
+    if (image) {
+      data.append("file", image); 
+    }
+
     try {
       await updateProfile({
         id: user._id,
-        data: formData,
+        data: data,
       }).unwrap();
 
       toast.success("Profile updated successfully");
@@ -117,6 +127,12 @@ const UpdatedProfileModal = () => {
       {errors.phone.message}
     </p>
   )}
+</div>
+
+<div>
+  <SingleImageUploader
+  onChange={setImage}
+  />
 </div>
 
           <DialogFooter>

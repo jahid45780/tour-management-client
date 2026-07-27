@@ -4,7 +4,7 @@ import SingleImageUploader from "@/components/SingleImageUploader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
+  DialogClose, 
   DialogContent,
   DialogFooter,
   DialogHeader,

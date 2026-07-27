@@ -19,6 +19,7 @@ import Booking from "@/pages/Booking";
 import PaymentSuccess from "@/components/modules/Admin/Payment/PaymentSuccess";
 import PaymentFail from "@/components/modules/Admin/Payment/PaymentFail";
 import PaymentCancel from "@/components/modules/Admin/Payment/PaymentCancel";
+import Contact from "@/pages/Contact";
 
 
  export const router = createBrowserRouter([
@@ -31,8 +32,12 @@ import PaymentCancel from "@/components/modules/Admin/Payment/PaymentCancel";
         index:true
       },
       {
-         Component:withAuth(About),
+         Component:About,
          path:'/about'
+      },
+      {
+         Component:Contact,
+         path:'/contact'
       },
       {
         Component:Tour,
