@@ -11,6 +11,7 @@ import {
 import { useAppDispatch } from "@/redux/hooks";
 import { role } from "@/constants/role";
 import Logo from "@/utils/Logo/Logo";
+import { toast } from "sonner";
 
 
 const Navbar = () => {
@@ -36,6 +37,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await logout(undefined);
+      toast.success("logout successfully")
       dispatch(authApi.util.resetApiState()); 
     
     } catch (error) {

@@ -19,8 +19,19 @@ export const DivisionApi = baseApi.injectEndpoints({
             }),
             providesTags:["DIVISION"],
           
-        })
+        }),
+
+        
+       deleteTourDivision:build.mutation({
+            query:(id) =>({
+                url:`/division/${id}`,
+                method:"DELETE"
+            }),
+            invalidatesTags:["DIVISION"]
+       })
     })
+
+
 })
 
-export const { useDivisionCreateMutation, useGetTourDivisionQuery } = DivisionApi
+export const { useDivisionCreateMutation, useGetTourDivisionQuery, useDeleteTourDivisionMutation } = DivisionApi

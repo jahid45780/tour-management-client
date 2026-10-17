@@ -72,7 +72,7 @@ export function AddDivisionModal() {
 
            <div className="flex flex-col gap-2">
             <label className="text-sm font-medium">
-              Tour Division
+              Tour description
             </label>
 
             <Textarea

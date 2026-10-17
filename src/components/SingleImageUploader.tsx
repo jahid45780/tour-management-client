@@ -1,13 +1,19 @@
 
-import { useFileUpload } from "@/hooks/use-file-upload";
-import { AlertCircleIcon, ImageUpIcon, XIcon } from "lucide-react";
-
+"use client";
 
 import { useEffect } from "react";
+import { AlertCircleIcon, ImageUpIcon, XIcon } from "lucide-react";
+import { useFileUpload } from "@/hooks/use-file-upload";
 
-export default function SingleImageUploader({onChange}) {
+interface SingleImageUploaderProps {
+  onChange: (file: File | null) => void;
+}
+
+export default function SingleImageUploader({
+  onChange,
+}: SingleImageUploaderProps) {
   const maxSizeMB = 5;
-  const maxSize = maxSizeMB * 1024 * 1024; // 5MB default
+  const maxSize = maxSizeMB * 1024 * 1024;
 
   const [
     { files, isDragging, errors },
@@ -25,25 +31,36 @@ export default function SingleImageUploader({onChange}) {
     maxSize,
   });
 
-  console.log("Inside image uploader", files);
-
   useEffect(() => {
     if (files.length > 0) {
-      onChange(files[0].file);
+      const selectedFile = files[0].file;
+
+      if (selectedFile instanceof File) {
+        onChange(selectedFile);
+      } else {
+        onChange(null);
+      }
     } else {
       onChange(null);
     }
-  }, [files]);
+  }, [files, onChange]);
 
   const previewUrl = files[0]?.preview || null;
 
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
-        {/* Drop area */}
         <div
           role="button"
+          tabIndex={0}
+          aria-label="Upload an image"
           onClick={openFileDialog}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openFileDialog();
+            }
+          }}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
@@ -56,6 +73,7 @@ export default function SingleImageUploader({onChange}) {
             className="sr-only"
             aria-label="Upload file"
           />
+
           {previewUrl ? (
             <div className="absolute inset-0">
               <img
@@ -72,21 +90,27 @@ export default function SingleImageUploader({onChange}) {
               >
                 <ImageUpIcon className="size-4 opacity-60" />
               </div>
+
               <p className="mb-1.5 text-sm font-medium">
                 Drop your image here or click to browse
               </p>
+
               <p className="text-muted-foreground text-xs">
                 Max size: {maxSizeMB}MB
               </p>
             </div>
           )}
         </div>
+
         {previewUrl && (
-          <div className="absolute top-4 right-4">
+          <div className="absolute right-4 top-4 z-10">
             <button
               type="button"
-              className="focus-visible:border-ring focus-visible:ring-ring/50 z-50 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-[color,box-shadow] outline-none hover:bg-black/80 focus-visible:ring-[3px]"
-              onClick={() => removeFile(files[0]?.id)}
+              className="focus-visible:border-ring focus-visible:ring-ring/50 flex size-8 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white outline-none transition-colors hover:bg-black/80 focus-visible:ring-[3px]"
+              onClick={(event) => {
+                event.stopPropagation();
+                removeFile(files[0].id);
+              }}
               aria-label="Remove image"
             >
               <XIcon className="size-4" aria-hidden="true" />

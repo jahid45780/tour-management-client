@@ -64,7 +64,7 @@ const RegisterFrom = () => {
     try {
       await register(userInfo).unwrap();
       toast.success("Register successfully! please login to continue")
-      navigate("/verify")
+      navigate("/login")
     } catch (error) {
       console.error("Registration failed:", error);
       toast.error("Registration failed. Please try again.");
