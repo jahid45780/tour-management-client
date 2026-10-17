@@ -13,13 +13,31 @@ import type { ILogin, IResponse, ISendOtp, IVerifyOtp } from "@/types";
                 data:userInfo
             })
         }),
-        login:build.mutation<IResponse<null>, ILogin>({
-            query:(userInfo)=>({
-                url:"/auth/login",
-                method:"POST",
-                data:userInfo
-            })
-        }),
+        // login:build.mutation<IResponse<null>, ILogin>({
+        //     query:(userInfo)=>({
+        //         url:"/auth/login",
+        //         method:"POST",
+        //         data:userInfo
+        //     })
+        // }),
+
+        login: build.mutation<IResponse<null>, ILogin>({
+  query: (userInfo) => ({
+    url: "/auth/login",
+    method: "POST",
+    data: userInfo,
+  }),
+  async onQueryStarted(_arg, { queryFulfilled }) {
+    try {
+      const { data } = await queryFulfilled;
+      console.log("LOGIN RESPONSE:", data);
+    } catch (error) {
+      console.error("LOGIN ERROR:", error);
+    }
+  },
+}),
+
+        
          logout:build.mutation({
             query:()=>({
                 url:"/auth/logout",
