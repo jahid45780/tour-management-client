@@ -11,7 +11,7 @@ import {
 import { useAppDispatch } from "@/redux/hooks";
 import { role } from "@/constants/role";
 import Logo from "@/utils/Logo/Logo";
-import { toast } from "sonner";
+
 
 
 const Navbar = () => {
@@ -39,12 +39,10 @@ const handleLogout = async () => {
     await logout(undefined).unwrap();
 
     dispatch(authApi.util.resetApiState());
-    toast.success("Logout successful");
 
-    window.location.href = "/login";
+    window.location.replace("/login");
   } catch (error) {
-    console.log("Logout failed:", error);
-    toast.error("Logout failed");
+    console.error("Logout failed:", error);
   }
 };
 
