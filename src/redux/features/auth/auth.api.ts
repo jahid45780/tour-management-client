@@ -38,13 +38,12 @@ import type { ILogin, IResponse, ISendOtp, IVerifyOtp } from "@/types";
 }),
 
         
-         logout:build.mutation({
-            query:()=>({
-                url:"/auth/logout",
-                method:"POST",    
-            }),
-            invalidatesTags: ["USER"],
-        }),
+      logout: build.mutation({
+  query: () => ({
+    url: "/auth/logout",
+    method: "POST",
+  }),
+}),
         sentOtp:build.mutation<IResponse<null>, ISendOtp>({
             query:(userInfo)=>({
                 url:"/otp/send",
