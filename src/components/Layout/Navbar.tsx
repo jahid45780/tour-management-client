@@ -34,16 +34,19 @@ const Navbar = () => {
   const isLoggedIn = Boolean(data?.data?.email);
 
   // ✅ logout handler
-  const handleLogout = async () => {
-    try {
-      await logout(undefined);
-      toast.success("logout successfully")
-      dispatch(authApi.util.resetApiState()); 
-    
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const handleLogout = async () => {
+  try {
+    await logout(undefined).unwrap();
+
+    dispatch(authApi.util.resetApiState());
+    toast.success("Logout successful");
+
+    window.location.href = "/login";
+  } catch (error) {
+    console.log("Logout failed:", error);
+    toast.error("Logout failed");
+  }
+};
 
   return (
     <header className="w-full sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-background/80 backdrop-blur-md">
